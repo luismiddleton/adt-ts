@@ -4,17 +4,12 @@ A TypeScript library for Algebraic Data Types (ADTs).
 
 ## Features
 
-- **Core Algebraic Data Types**:
-  - **`Option<T>`**: Safe optional values (`Some<T>` | `None`) with a zero-allocation `None` singleton.
-  - **`Result<T, E>`**: Explicit synchronous error handling (`Ok<T>` | `Err<E>`).
-  - **`Task<T, E>`**: Lazy, composable asynchronous computations (`() => Promise<Result<T, E>>`) that never reject on `.run()` while supporting synchronous lifecycle status inspection (`idle` | `pending` | `succeeded` | `failed`).
-  - **`ADT`**: Zero-boilerplate factory and exhaustive pattern matcher for custom discriminated unions.
-- **Common Algebraic Abstractions**: Consistent `Tagged`, `Mappable` (Functor), `Bimappable` (Bifunctor), `Chainable` (Monad), `Matchable` (Foldable), and `Unwrappable` interfaces across all types.
-- **Tiny & Tree-Shakable**:
-  - `"sideEffects": false` + subpath exports (`@luism/adt-ts/option`, `/result`, `/task`, `/adt`).
-  - Strictly acyclic dependency graph: importing `Option` or `Result` never bundles `Task`.
-  - Minified ESM and CJS outputs compiled with `@rslib/core`.
-- **Node.js >= 16 Compatible**: Works across Node 16+, browsers, Deno, Bun, and Edge runtimes.
+- **Safe Optional Values (`Option`)**: Handle missing values gracefully without worrying about unexpected `null` or `undefined` runtime errors.
+- **Predictable Error Handling (`Result`)**: Represent operations that can succeed or fail explicitly without relying on thrown exceptions.
+- **Controlled Async Operations (`Task`)**: Manage asynchronous work that runs only when you ask it to, never crashes unexpectedly, and lets you check progress along the way.
+- **Custom Data Shapes (`ADT`)**: Easily build your own custom data models with built-in pattern matching to handle every possible case.
+- **Consistent & Composable**: Every type shares a familiar API (`map`, `flatMap`, `match`, and fallback helpers) so learning one makes using all the others second nature.
+- **Broad Compatibility**: Built for Node.js 16+ and fully compatible with modern browsers, Deno, Bun, and Edge runtimes.
 
 ## Installation
 
