@@ -1,6 +1,6 @@
-# `@luism/adt-ts`
+# adt-ts
 
-A lightweight, zero-dependency, tree-shakable TypeScript library for **Algebraic Data Types (ADTs)**—uniting `@luism/result-ts` and `@luism/task-ts` with `Option<T>` and a generic `ADT` (tagged union) builder.
+A TypeScript library for Algebraic Data Types (ADTs).
 
 ## Features
 
