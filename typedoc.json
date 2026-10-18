@@ -1,0 +1,11 @@
+{
+  "out": "./docs",
+  "entryPoints": [
+    "src/index.ts",
+    "src/core/index.ts",
+    "src/option/index.ts",
+    "src/result/index.ts",
+    "src/task/index.ts",
+    "src/adt/index.ts"
+  ]
+}

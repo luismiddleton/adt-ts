@@ -1,0 +1,15 @@
+export {
+  ADT,
+  defineADT,
+  matchTagged,
+  matchTaggedPartial,
+  tag,
+  type ADTModule,
+  type ADTSpec,
+  type ADTUnion,
+  type ADTVariant,
+  type ExhaustivePatterns,
+  type ExtractVariant,
+  type PartialPatterns,
+  type VariantConstructor,
+} from "./adt";
