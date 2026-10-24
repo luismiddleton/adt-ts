@@ -56,7 +56,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      packages: write # Required for GitHub Packages
       id-token: write # Required for npm provenance & JSR OIDC
     steps:
       - name: Checkout repository
@@ -104,11 +103,3 @@ jobs:
       - name: Publish to JSR
         if: steps.changesets.outputs.published == 'true'
         run: pnpm dlx jsr publish --allow-dirty
-
-      - name: Publish to GitHub Packages
-        if: steps.changesets.outputs.published == 'true'
-        run: |
-          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
-          pnpm ci:publish:github
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -74,8 +74,7 @@
     "check": "pnpm lint && pnpm format:check && pnpm typecheck",
     "changeset": "changeset",
     "ci:version": "changeset version",
-    "ci:publish": "pnpm build && changeset publish",
-    "ci:publish:github": "pnpm publish --registry=https://npm.pkg.github.com --no-git-checks"
+    "ci:publish": "pnpm build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
