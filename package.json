@@ -70,8 +70,8 @@
     "check": "pnpm lint && pnpm format:check && pnpm typecheck",
     "changeset": "changeset",
     "ci:version": "changeset version",
-    "ci:stage": "pnpm build && npm stage publish",
-    "ci:publish": "pnpm build && pnpm publish --access=public --no-git-checks --provenance",
+    "ci:stage": "pnpm build && npx --yes npm@latest stage publish --access=public",
+    "ci:publish": "pnpm build && npx --yes npm@latest stage publish --access=public",
     "ci:publish:github": "pnpm publish --registry=https://npm.pkg.github.com --no-git-checks"
   },
   "devDependencies": {
