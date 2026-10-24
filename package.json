@@ -55,6 +55,10 @@
       "require": "./dist/cjs/adt.cjs"
     }
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "rslib build",
     "build:watch": "rslib build --watch",
@@ -70,7 +74,7 @@
     "check": "pnpm lint && pnpm format:check && pnpm typecheck",
     "changeset": "changeset",
     "ci:version": "changeset version",
-    "ci:publish": "pnpm build && pnpm publish --access=public --no-git-checks --provenance",
+    "ci:publish": "pnpm build && changeset publish",
     "ci:publish:github": "pnpm publish --registry=https://npm.pkg.github.com --no-git-checks"
   },
   "devDependencies": {
