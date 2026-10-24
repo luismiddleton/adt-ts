@@ -1,5 +1,11 @@
 # @luism/adt-ts
 
+## 0.1.4
+
+### Patch Changes
+
+- a61dcbf: ci: add --allow-dirty to jsr publish and enable workflow_dispatch
+
 ## 0.1.3
 
 ### Patch Changes
