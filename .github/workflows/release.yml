@@ -80,7 +80,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create Release PR or Publish to npm
+      - name: Create Release PR or Stage Publish to npm (2FA Deferred)
         id: changesets
         uses: changesets/action@v1
         with:
