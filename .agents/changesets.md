@@ -117,7 +117,7 @@ sequenceDiagram
     participant Main as main Branch
     participant CI as Release Workflow
     participant VersionPR as "chore: version packages" PR
-    participant Registries as npm / JSR / GitHub Packages
+    participant Registries as npm / JSR
 
     Contributor->>Branch: Commit code + .changeset/<slug>.md
     Branch->>PR: Open pull request
@@ -129,7 +129,6 @@ sequenceDiagram
     Main->>CI: Trigger release.yml with published condition
     CI->>Registries: pnpm ci:publish (npm with provenance)
     CI->>Registries: pnpm dlx jsr publish
-    CI->>Registries: pnpm ci:publish:github (GitHub Packages)
     CI->>Main: Creates GitHub Releases tag & notes
 ````
 
@@ -139,5 +138,4 @@ sequenceDiagram
 2. **Atomic Releases**: When a release is desired, merging the `chore: version packages` PR into `main` performs the actual publishing to:
    - **npm**: With provenance (`--provenance`) and `--access=public`.
    - **JSR**: Via `pnpm dlx jsr publish`.
-   - **GitHub Packages**: Via `@luism/adt-ts` to `npm.pkg.github.com`.
    - **GitHub Releases**: Automated release notes corresponding to the new Git tag.

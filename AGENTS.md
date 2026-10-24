@@ -10,7 +10,7 @@ This document is the primary operational router and entrypoint for AI coding age
 - **Purpose**: Lightweight, tree-shakable TypeScript library providing Algebraic Data Types (`Option`, `Result`, `Task`, `ADT`).
 - **Design Philosophy**: Zero runtime dependencies, functional purity, strict type safety, ergonomic pattern matching.
 - **Build System**: Rslib (`@rslib/core`) emitting dual ESM (`dist/esm`) and CJS (`dist/cjs`) outputs with declaration files.
-- **Publishing Targets**: Multi-registry automated publishing to **npm** (with provenance and 2FA staging), **JSR**, and **GitHub Packages**.
+- **Publishing Targets**: Automated multi-registry publishing to **npm** (with Sigstore provenance via OIDC), **JSR**, and **GitHub Releases**.
 
 ---
 
