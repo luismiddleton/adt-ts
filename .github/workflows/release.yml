@@ -42,8 +42,6 @@ jobs:
 
       - name: Validate npm Tarball & Dry Run
         run: pnpm publish --dry-run --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_STAGE_TOKEN }}
 
       - name: JSR Dry Run
         run: pnpm dlx jsr publish --dry-run
@@ -80,7 +78,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create Release PR or Stage Publish to npm (2FA Deferred)
+      - name: Create Release PR or Publish to Registries
         id: changesets
         uses: changesets/action@v1
         with:
@@ -88,10 +86,9 @@ jobs:
           version: pnpm ci:version
           title: "chore: version packages"
           commit: "chore: version packages"
+          create-github-releases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Publish to JSR
         if: steps.changesets.outputs.published == 'true'
