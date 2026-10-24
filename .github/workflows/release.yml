@@ -34,11 +34,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build packages
+        run: pnpm build
+
       - name: Run verification checks
         run: pnpm check && pnpm test
 
       - name: Validate npm Tarball & Dry Run
-        run: pnpm build && pnpm publish --dry-run --no-git-checks
+        run: pnpm publish --dry-run --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_STAGE_TOKEN }}
 
