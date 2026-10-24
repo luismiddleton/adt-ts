@@ -89,12 +89,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Sync version to jsr.json
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          node -e '
+            const fs = require("fs");
+            const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+            const jsr = JSON.parse(fs.readFileSync("jsr.json", "utf8"));
+            jsr.version = pkg.version;
+            fs.writeFileSync("jsr.json", JSON.stringify(jsr, null, 2) + "\n");
+          '
+
       - name: Publish to JSR
         if: steps.changesets.outputs.published == 'true'
         run: pnpm dlx jsr publish
 
       - name: Publish to GitHub Packages
         if: steps.changesets.outputs.published == 'true'
-        run: pnpm ci:publish:github
+        run: |
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+          pnpm ci:publish:github
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
