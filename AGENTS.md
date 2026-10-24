@@ -1,6 +1,6 @@
 # Agent Operating Manual & Router
 
-Welcome to `@luism/adt-ts`. This document is the primary operational router and entrypoint for AI coding agents and human contributors interacting with this repository.
+This document is the primary operational router and entrypoint for AI coding agents and human contributors interacting with this repository.
 
 ---
 
