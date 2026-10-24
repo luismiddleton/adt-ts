@@ -69,7 +69,10 @@
     "typecheck": "tsc --noEmit",
     "check": "pnpm lint && pnpm format:check && pnpm typecheck",
     "changeset": "changeset",
-    "ci:publish": "pnpm publish -r --access=public"
+    "ci:version": "changeset version",
+    "ci:stage": "pnpm build && npm stage publish",
+    "ci:publish": "pnpm build && pnpm publish --access=public --no-git-checks --provenance",
+    "ci:publish:github": "pnpm publish --registry=https://npm.pkg.github.com --no-git-checks"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",

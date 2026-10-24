@@ -8,7 +8,12 @@ import { Result, type ResultMatcher } from "../result/Result";
  * Defined as a frozen `as const` object rather than a TypeScript `enum` so bundlers
  * can inline and tree-shake unused properties with zero IIFE overhead.
  */
-export const TaskStatus = /* @__PURE__ */ Object.freeze({
+export const TaskStatus: {
+  readonly IDLE: "idle";
+  readonly PENDING: "pending";
+  readonly SUCCEEDED: "succeeded";
+  readonly FAILED: "failed";
+} = /* @__PURE__ */ Object.freeze({
   /**
    * The task has been constructed lazily and has not yet been started via `.run()`.
    */

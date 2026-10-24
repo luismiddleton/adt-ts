@@ -1,0 +1,12 @@
+{
+  "name": "@luism/adt-ts",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./option": "./src/option/index.ts",
+    "./result": "./src/result/index.ts",
+    "./task": "./src/task/index.ts",
+    "./adt": "./src/adt/index.ts"
+  }
+}

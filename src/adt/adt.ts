@@ -209,7 +209,12 @@ export function defineADT<Spec extends ADTSpec>(): ADTModule<Spec> {
 /**
  * Namespace of utilities for creating and pattern-matching custom Algebraic Data Types (sum types).
  */
-export const ADT = /* @__PURE__ */ Object.freeze({
+export const ADT: {
+  readonly define: typeof defineADT;
+  readonly tag: typeof tag;
+  readonly match: typeof matchTagged;
+  readonly matchPartial: typeof matchTaggedPartial;
+} = /* @__PURE__ */ Object.freeze({
   define: defineADT,
   tag,
   match: matchTagged,
