@@ -1,5 +1,11 @@
 # @luism/adt-ts
 
+## 0.1.3
+
+### Patch Changes
+
+- 4720b53: ci: finalize GitHub Packages authentication and JSR version synchronization
+
 ## 0.1.2
 
 ### Patch Changes
