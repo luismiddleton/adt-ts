@@ -1,5 +1,11 @@
 # @luism/adt-ts
 
+## 0.1.2
+
+### Patch Changes
+
+- 4093e2a: ci: integrate changeset publish with npm provenance, JSR, and GitHub packages
+
 ## 0.1.1
 
 ### Patch Changes
