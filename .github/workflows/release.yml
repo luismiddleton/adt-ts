@@ -1,0 +1,104 @@
+name: Release Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: read
+
+jobs:
+  stage-check:
+    name: Stage & Pre-flight Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.14.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Run verification checks
+        run: pnpm check && pnpm test
+
+      - name: Validate npm Tarball & Dry Run
+        run: pnpm publish --dry-run --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_STAGE_TOKEN }}
+
+      - name: JSR Dry Run
+        run: pnpm dlx jsr publish --dry-run
+
+  publish:
+    name: Production Release
+    needs: [stage-check]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write # Required for GitHub Packages
+      id-token: write # Required for npm provenance & JSR OIDC
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.14.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create Release PR or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm ci:publish
+          version: pnpm ci:version
+          title: "chore: version packages"
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+      - name: Publish to JSR
+        if: steps.changesets.outputs.published == 'true'
+        run: pnpm dlx jsr publish
+
+      - name: Publish to GitHub Packages
+        if: steps.changesets.outputs.published == 'true'
+        run: pnpm ci:publish:github
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
