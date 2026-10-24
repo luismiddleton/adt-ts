@@ -20,6 +20,10 @@
     "type": "git",
     "url": "git+https://github.com/luismiddleton/adt-ts.git"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "files": [
     "dist"
   ],
@@ -70,7 +74,7 @@
     "check": "pnpm lint && pnpm format:check && pnpm typecheck",
     "changeset": "changeset",
     "ci:version": "changeset version",
-    "ci:publish": "pnpm build && pnpm publish --access=public --no-git-checks --provenance",
+    "ci:publish": "pnpm build && changeset publish",
     "ci:publish:github": "pnpm publish --registry=https://npm.pkg.github.com --no-git-checks"
   },
   "devDependencies": {
