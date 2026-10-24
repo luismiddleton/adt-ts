@@ -1,5 +1,11 @@
 # @luism/adt-ts
 
+## 0.1.5
+
+### Patch Changes
+
+- b3985cb: ci: retire GitHub Packages publish target in favor of npm, JSR, and GitHub Releases
+
 ## 0.1.4
 
 ### Patch Changes
