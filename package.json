@@ -1,6 +1,6 @@
 {
   "name": "@luism/adt-ts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight, tree-shakable TypeScript library for Algebraic Data Types (Option, Result, Task, ADT)",
   "keywords": [
     "adt",
