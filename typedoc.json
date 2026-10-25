@@ -1,5 +1,5 @@
 {
-  "out": "./docs",
+  "out": "./dist/docs",
   "entryPoints": [
     "src/index.ts",
     "src/core/index.ts",
