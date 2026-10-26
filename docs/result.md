@@ -27,9 +27,9 @@ In standard JavaScript and TypeScript, runtime exceptions thrown with `throw` ar
 
 ### Before vs After
 
-````carousel
+#### ❌ Before: Invisible thrown exceptions and untyped catch blocks
+
 ```typescript
-// ❌ Before: Invisible thrown exceptions and untyped catch blocks
 function parseConfig(raw: string): AppConfig {
   try {
     const json = JSON.parse(raw);
@@ -44,9 +44,10 @@ function parseConfig(raw: string): AppConfig {
   }
 }
 ```
-<!-- slide -->
+
+#### ✅ After: Declarative, typed Result pipeline with explicit error models
+
 ```typescript
-// ✅ After: Declarative, typed Result pipeline with explicit error models
 import { Result } from "@luism/adt-ts/result";
 
 type ConfigError = { type: "INVALID_JSON"; cause: string } | { type: "MISSING_KEY"; key: string };
@@ -62,7 +63,6 @@ function parseConfig(raw: string): Result<AppConfig, ConfigError> {
   );
 }
 ```
-````
 
 ---
 
@@ -86,27 +86,28 @@ A `Result<T, E>` is a dual-channel container that exists in either the `Ok` stat
 
 ```mermaid
 stateDiagram-v2
+    direction TB
     [*] --> Ok: Result.ok(value)
     [*] --> Err: Result.err(error)
 
     state Ok {
-        [*] --> MapOk: map(fn)
-        MapOk --> Ok: fn(v) -> v'
-        [*] --> FlatMapOk: flatMap(fn)
-        FlatMapOk --> Ok: fn(v) -> Ok
-        FlatMapOk --> Err: fn(v) -> Err
+        [*] --> OkTransform: map(fn)
+        OkTransform --> Ok: "fn(v) yields v'"
+        [*] --> OkFlatMap: flatMap(fn)
+        OkFlatMap --> Ok: "fn(v) yields Ok(v')"
+        OkFlatMap --> Err: "fn(v) yields Err(e)"
     }
 
     state Err {
-        [*] --> MapErr: mapErr(fn)
-        MapErr --> Err: fn(e) -> e'
-        [*] --> OrElse: orElse(fn)
-        OrElse --> Ok: fn(e) -> Ok
-        OrElse --> Err: fn(e) -> Err
+        [*] --> ErrTransform: mapErr(fn)
+        ErrTransform --> Err: "fn(e) yields e'"
+        [*] --> ErrOrElse: orElse(fn)
+        ErrOrElse --> Ok: "fn(e) yields Ok(v)"
+        ErrOrElse --> Err: "fn(e) yields Err(e')"
     }
 
-    Ok --> Extract: unwrapOr(default) -> returns value
-    Err --> Extract: unwrapOr(default) -> returns default
+    Ok --> Extract: "unwrapOr(fallback) → value"
+    Err --> Extract: "unwrapOr(fallback) → fallback"
 ```
 
 When transforming a `Result`:
