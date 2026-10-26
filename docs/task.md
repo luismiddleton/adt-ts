@@ -27,9 +27,9 @@ Native JavaScript `Promise`s are eager, untyped in their failure channel, and pr
 
 ### Before vs After
 
-````carousel
+#### ❌ Before: Eager execution, unhandled rejections, and untyped error catch
+
 ```typescript
-// ❌ Before: Eager execution, unhandled rejections, and untyped error catch
 async function fetchUser(id: string): Promise<User> {
   // Starts running immediately when called!
   const res = await fetch(`/api/users/${id}`);
@@ -47,9 +47,10 @@ try {
   console.error(e);
 }
 ```
-<!-- slide -->
+
+#### ✅ After: Lazy, non-throwing Task with explicit typed errors
+
 ```typescript
-// ✅ After: Lazy, non-throwing Task with explicit typed errors
 import { Task } from "@luism/adt-ts/task";
 
 type HttpError = { status: number; message: string };
@@ -75,7 +76,6 @@ if (outcome.isOk()) {
   console.error("HTTP error:", outcome.unwrapErr().status);
 }
 ```
-````
 
 ---
 
@@ -99,19 +99,20 @@ A `Task<T, E>` transitions through defined lifecycle states and always yields a 
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Idle: Task.tryCatch(...) / Task.from(...)
-    Idle --> Pending: task.run() invoked
-    Pending --> Succeeded: Async resolution -> Ok(value)
-    Pending --> Failed: Async rejection -> Err(error)
+    direction TB
+    [*] --> Idle: "Task.tryCatch(...) / Task.from(...)"
+    Idle --> Pending: "task.run() invoked"
+    Pending --> Succeeded: "Async resolution → Ok(value)"
+    Pending --> Failed: "Async rejection → Err(error)"
 
     state Succeeded {
-        [*] --> Map: map(fn) -> new Task
-        [*] --> FlatMap: flatMap(fn) -> new Task
+        [*] --> Map: "map(fn) → new Task"
+        [*] --> FlatMap: "flatMap(fn) → new Task"
     }
 
     state Failed {
-        [*] --> MapErr: mapErr(fn) -> new Task
-        [*] --> OrElse: orElse(fn) -> new Task
+        [*] --> MapErr: "mapErr(fn) → new Task"
+        [*] --> OrElse: "orElse(fn) → new Task"
     }
 ```
 

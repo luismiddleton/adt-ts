@@ -27,9 +27,9 @@ JavaScript and TypeScript applications frequently suffer from insidious runtime 
 
 ### Before vs After
 
-````carousel
+#### ❌ Before: Fragile defensive checks and falsy coercion pitfalls
+
 ```typescript
-// ❌ Before: Fragile defensive checks and falsy coercion pitfalls
 function getPort(envPort: string | undefined): number {
   if (envPort !== undefined && envPort !== null) {
     const parsed = parseInt(envPort, 10);
@@ -43,9 +43,10 @@ function getPort(envPort: string | undefined): number {
 // Falsy pitfall example:
 const timeout = config.timeout || 3000; // Overrides 0 with 3000!
 ```
-<!-- slide -->
+
+#### ✅ After: Clean, declarative, type-safe pipeline with Option
+
 ```typescript
-// ✅ After: Clean, declarative, type-safe pipeline with Option
 import { Option } from "@luism/adt-ts/option";
 
 function getPort(envPort: string | undefined): number {
@@ -58,7 +59,6 @@ function getPort(envPort: string | undefined): number {
 // Exact presence check (preserves 0):
 const timeout = Option.fromNullable(config.timeout).unwrapOr(3000);
 ```
-````
 
 ---
 
@@ -82,26 +82,27 @@ An `Option<T>` is a container that exists in one of two states: `Some` (containi
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Some: Option.some(v) / Option.fromNullable(v)
-    [*] --> None: Option.none() / Option.fromNullable(null)
+    direction TB
+    [*] --> Some: "Option.some(v) / fromNullable(v)"
+    [*] --> None: "Option.none() / fromNullable(null)"
 
     state Some {
         [*] --> MapSome: map(fn)
-        MapSome --> Some: fn(v) -> v'
+        MapSome --> Some: "fn(v) yields v'"
         [*] --> FilterSome: filter(pred)
-        FilterSome --> None: predicate is false
-        FilterSome --> Some: predicate is true
+        FilterSome --> None: "predicate is false"
+        FilterSome --> Some: "predicate is true"
     }
 
     state None {
         [*] --> MapNone: map(fn)
-        MapNone --> None: bypass fn
+        MapNone --> None: "bypass fn"
         [*] --> OrElse: orElse(factory)
-        OrElse --> Some: factory() returns Some
+        OrElse --> Some: "factory() returns Some"
     }
 
-    Some --> Extract: unwrapOr(default) -> returns v
-    None --> Extract: unwrapOr(default) -> returns default
+    Some --> Extract: "unwrapOr(fallback) → v"
+    None --> Extract: "unwrapOr(fallback) → fallback"
 ```
 
 When transforming an `Option` via `.map()`:

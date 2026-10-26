@@ -27,9 +27,9 @@ TypeScript supports discriminated unions out of the box, but manually implementi
 
 ### Before vs After
 
-````carousel
+#### ❌ Before: Verbose interface declarations, constructors, and switch-case
+
 ```typescript
-// ❌ Before: Verbose interface declarations, constructors, and switch-case
 type Circle = { readonly _tag: "Circle"; readonly radius: number };
 type Rectangle = { readonly _tag: "Rectangle"; readonly width: number; readonly height: number };
 type Shape = Circle | Rectangle;
@@ -52,9 +52,10 @@ function getArea(shape: Shape): number {
   }
 }
 ```
-<!-- slide -->
+
+#### ✅ After: Declarative specification, automatic constructors, and exhaustive match
+
 ```typescript
-// ✅ After: Declarative specification, automatic constructors, and exhaustive match
 import { ADT, type ADTUnion } from "@luism/adt-ts/adt";
 
 type ShapeSpec = {
@@ -75,7 +76,6 @@ const area = Shape.match(shape, {
   Point: () => 0,
 });
 ```
-````
 
 ---
 
